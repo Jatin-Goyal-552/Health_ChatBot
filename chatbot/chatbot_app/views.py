@@ -20,10 +20,11 @@ model = keras.models.load_model('C://Users//LENOVO//projects//Health Care Chatbo
 intents = json.loads(open('C://Users//LENOVO//projects//Health Care Chatbot//data//intents.json').read())
 words = pickle.load(open('C://Users//LENOVO//projects//Health Care Chatbot//notebook//words.pkl','rb'))
 classes = pickle.load(open('C://Users//LENOVO//projects//Health Care Chatbot//notebook//classes.pkl','rb'))
-
+print("---------------------You are set to go.--------------------------")
 flag=False
 prec,desc,sym=False,False,False
 temp_disease=''
+all_symptoms=''
 
 def chatbot(request):
     return render(request,'chatbot.html')
@@ -86,7 +87,7 @@ def chatbot_response(msg):
 def predict_chat(request):
     pred="please type something"
     tag=""
-    global prec,desc,sym,flag,temp_disease
+    global prec,desc,sym,flag,temp_disease,all_symptoms
     if request.method == 'POST':
         print('hello')
         chat=request.POST['operation']
@@ -95,8 +96,10 @@ def predict_chat(request):
         if tag=="tell_symptoms":
             sym=True
             prec,desc=False,False
-            return HttpResponse(json.dumps({'ans':"Please tell your sysmptoms"}), content_type="application/json")
-        elif sym:
+            return HttpResponse(json.dumps({'ans':"Please tell your symptoms."}), content_type="application/json")
+        elif tag=="no_symptoms":
+            # chat+=all_symptoms
+            chat=all_symptoms
             symptoms=chat.split(',')
             symptoms=" ".join(symptoms)
             test=clean(symptoms)
@@ -106,7 +109,24 @@ def predict_chat(request):
             temp_disease=pred
             sym=False
             print("test",test)
-            return HttpResponse(json.dumps({'ans':pred}), content_type="application/json")
+            return HttpResponse(json.dumps({'ans':"You have "+pred+"."}), content_type="application/json")
+        elif tag=="add_symptoms":
+            # all_symptoms+=chat+" "
+            tag=''
+            return HttpResponse(json.dumps({'ans':"Tell me more symptoms"}), content_type="application/json")
+            
+        elif sym:
+            # symptoms=chat.split(',')
+            # symptoms=" ".join(symptoms)
+            # test=clean(symptoms)
+            # test=[test]
+            # test_vectorized=disease_tokenizer.transform(test)
+            # pred=disease_model.predict(test_vectorized)[0]
+            # temp_disease=pred
+            # sym=False
+            # print("test",test)
+            all_symptoms+=chat+" "
+            return HttpResponse(json.dumps({'ans':"have you told all symptoms to me or you want to tell me more."}), content_type="application/json")
         elif tag=="tell_precautions":
             df_precautions=pd.read_csv("C://Users//LENOVO//projects//Health Care Chatbot//data//DiseaseData//symptom_precaution.csv")
             # temp_disease="Chicken pox"

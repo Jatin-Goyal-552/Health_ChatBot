@@ -4,7 +4,6 @@
       "tag": "greeting",
       "patterns": [
         "Hi there",
-        "How are you",
         "Is anyone there?",
         "Hey",
         "Hola",
@@ -12,9 +11,23 @@
         "Good day"
       ],
       "responses": [
-        "Hello, thanks for asking",
-        "Good to see you again",
-        "Hi there, how can I help?"
+        "Hello, thanks for asking.",
+        "Hi, Thanks for asking me.",
+        "hello, I am here."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "condition",
+      "patterns": [
+        "How are you doing.",
+        "How are you.",
+        "what is going up?"
+      ],
+      "responses": [
+        "I am fine, thank you.",
+        "I am good thanks for asking me.",
+        "I am doing good."
       ],
       "context": [""]
     },
@@ -28,9 +41,10 @@
         "Till next time"
       ],
       "responses": [
-        "See you!",
+        "See you!, I hope you will come again.",
         "Have a nice day",
-        "Bye! Come back again soon."
+        "Bye! Come back again soon.",
+        "Bye! Thanks for chating with me."
       ],
       "context": [""]
     },
@@ -43,16 +57,20 @@
         "Awesome, thanks",
         "Thanks for helping me"
       ],
-      "responses": ["Happy to help!", "Any time!", "My pleasure"],
+      "responses": ["Happy to help!", "Any time!", "My pleasure."],
       "context": [""]
     },
     {
-      "tag": "noanswer",
-      "patterns": [],
+      "tag": "name",
+      "patterns": [
+        "What is your name",
+        "What should i call you",
+        "Do you have any name"
+      ],
       "responses": [
-        "Sorry, can't understand you",
-        "Please give me more info",
-        "Not sure I understand"
+        "I am your health buddy, HealthyChatBot.",
+        "My name is HealthyChatbot.",
+        "You can call me HealthyChatBot."
       ],
       "context": [""]
     },
@@ -66,49 +84,85 @@
         "What support is offered?"
       ],
       "responses": [
-        "I am here you to help in disease prediction by symptoms",
-        "I can predict what disease you have by symptoms"
+        "You can tell me how you are feeling, good or bad and I will predict result by symptoms.",
+        "I can predict what disease you have by symptoms. Just tell me how are you feeling?"
       ],
       "context": [""]
     },
     {
       "tag": "tell_symptoms",
       "patterns": [
-        "I am not feeling fine",
-        "I am not feeling good",
-        "I am feeling unusual"
+        "I am not feeling fine.",
+        "I am not feeling good.",
+        "I am feeling unusual.",
+        "I am feeling bad."
       ],
       "responses": [
-        "What are you symptoms?",
-        "What sysmptoms are you feeling?"
+        "What are your symptoms?",
+        "Can you tell me symptoms that you are feeling?",
+        "Can you tell me how are you feeling?"
       ],
       "context": [""]
     },
     {
       "tag": "tell_precautions",
       "patterns": [
-        "can you tell me precaution about this disease?",
-        "please tell me precautions about this disease?",
-        "what precautions should i take?",
-        "how to stop it from spreading?"
+        "Can you tell me precaution about this disease?",
+        "Please tell me precautions about this disease?",
+        "What precautions should i take?",
+        "How to stop it from spreading?",
+        "How to cure this disease?",
+        "What should i do about this disease?"
       ],
-      "responses": [
-        "What are you symptoms?",
-        "What sysmptoms are you feeling?"
-      ],
+      "responses": [" "],
       "context": [""]
     },
     {
       "tag": "tell_description",
       "patterns": [
-        "can you tell me about this disease?",
-        "please tell me more about this disease?",
-        "what is this disease?",
-        "please give me description about this disease?"
+        "Can you tell me about this disease?",
+        "Please tell me more about this disease?",
+        "Please give me description about this disease?",
+        "Please give me more information about this disease.",
+        "What is this disease?"
+      ],
+      "responses": [" "],
+      "context": [""]
+    },
+    {
+      "tag": "add_symptoms",
+      "patterns": [
+        "I want to add more symptoms",
+        "Yes, I want to tell you more symptoms",
+        "no i am not done yet",
+        "wait a minute i want to tell more symptoms"
+      ],
+      "responses": [" "],
+      "context": [""]
+    },
+    {
+      "tag": "no_symptoms",
+      "patterns": [
+        "I do not want to add more symptoms.",
+        "No, I do not want to tell you more symptoms",
+        "I am done ",
+        "Please tell me my disease"
+      ],
+      "responses": [" "],
+      "context": [""]
+    },
+    {
+      "tag": "fine",
+      "patterns": [
+        "I am feeling fine.",
+        "I am feeling good.",
+        "I am feeling great.",
+        "I am not feeling bad."
       ],
       "responses": [
-        "What are you symptoms?",
-        "What sysmptoms are you feeling?"
+        "Congrats.. You do not have any disease.",
+        "Cheers.. you are completely fine.",
+        "You are doing good keep it up."
       ],
       "context": [""]
     }
