@@ -1,0 +1,116 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi there",
+        "How are you",
+        "Is anyone there?",
+        "Hey",
+        "Hola",
+        "Hello",
+        "Good day"
+      ],
+      "responses": [
+        "Hello, thanks for asking",
+        "Good to see you again",
+        "Hi there, how can I help?"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye",
+        "See you later",
+        "Goodbye",
+        "Nice chatting to you, bye",
+        "Till next time"
+      ],
+      "responses": [
+        "See you!",
+        "Have a nice day",
+        "Bye! Come back again soon."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Thanks",
+        "Thank you",
+        "That's helpful",
+        "Awesome, thanks",
+        "Thanks for helping me"
+      ],
+      "responses": ["Happy to help!", "Any time!", "My pleasure"],
+      "context": [""]
+    },
+    {
+      "tag": "noanswer",
+      "patterns": [],
+      "responses": [
+        "Sorry, can't understand you",
+        "Please give me more info",
+        "Not sure I understand"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "options",
+      "patterns": [
+        "How you could help me?",
+        "What you can do?",
+        "What help you provide?",
+        "How you can be helpful?",
+        "What support is offered?"
+      ],
+      "responses": [
+        "I am here you to help in disease prediction by symptoms",
+        "I can predict what disease you have by symptoms"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "tell_symptoms",
+      "patterns": [
+        "I am not feeling fine",
+        "I am not feeling good",
+        "I am feeling unusual"
+      ],
+      "responses": [
+        "What are you symptoms?",
+        "What sysmptoms are you feeling?"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "tell_precautions",
+      "patterns": [
+        "can you tell me precaution about this disease?",
+        "please tell me precautions about this disease?",
+        "what precautions should i take?",
+        "how to stop it from spreading?"
+      ],
+      "responses": [
+        "What are you symptoms?",
+        "What sysmptoms are you feeling?"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "tell_description",
+      "patterns": [
+        "can you tell me about this disease?",
+        "please tell me more about this disease?",
+        "what is this disease?",
+        "please give me description about this disease?"
+      ],
+      "responses": [
+        "What are you symptoms?",
+        "What sysmptoms are you feeling?"
+      ],
+      "context": [""]
+    }
+  ]
+}

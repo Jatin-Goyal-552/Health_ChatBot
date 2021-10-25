@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{% static 'navigation/css/style.css' %}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js" integrity="sha256-WVsM3xrcqyuFNF3W1qtIKbHFsD0977nDQA8DCMp1zCw=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" integrity="sha256-2/3R3NV5zryj0fDjD3cDh+SNiWQ/TJiMVZzAo5FrhiU=" crossorigin="anonymous"></script>
+        <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</head>
+<style>
+    body{
+    font: 15px arial, sans-serif;
+    background-color: #d0ffe0;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    }
+    
+    .ftco-navbar-light1 {
+        background: #2d2d2d;
+        z-index: 3;
+        padding: 10px 10px;
+        font-size: 19px;
+        border-radius: 5px;
+        -webkit-box-shadow: 0px 5px 20px -17px rgb(0 0 0 / 34%);
+        -moz-box-shadow: 0px 5px 20px -17px rgba(0, 0, 0, 0.34);
+        box-shadow: 0px 5px 20px -17px rgb(0 0 0 / 34%);
+        width: inherit;
+        margin-top: -16px;
+    }
+
+    a {
+        color: #ffffff;
+        text-decoration: none;
+        background-color: transparent;
+        -webkit-text-decoration-skip: objects;
+    }
+
+    .navbar-brand {
+        display: inline-block;
+        padding-top: .3125rem;
+        padding-bottom: .3125rem;
+        margin-right: 1rem;
+        font-size: 1.75rem;
+        line-height: inherit;
+        white-space: nowrap;
+        font-weight: 700;
+    }
+    .rounded {
+        border-radius: 1.75rem!important;
+    }
+    .border {
+        border: 6px solid #844e96!important;
+    }
+    .ftco-navbar-light1 .navbar-nav > .nav-item > .nav-link {
+        font-size: 18px;
+        padding-top: 1.2rem;
+        padding-bottom: 1.2rem;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-weight: 400;
+        color: #e6e6e6;
+        position: relative;
+        opacity: 1 !important;
+    }
+    .ftco-navbar-light1 .navbar-nav > .nav-item > .nav-link:hover {
+        color: #fec771;
+    }
+    .ftco-navbar-light1 .navbar-brand:hover, .ftco-navbar-light .navbar-brand:focus {
+        color: #fec771;
+    }
+    /*
+.mt-5, .my-5 {
+    margin-top: 3rem!important;
+    background-color: white;
+    padding: 19px;
+}*/
+    .ratings i {
+        font-size: 16px;
+        color: red
+    }
+
+    .strike-text {
+        color: red;
+        text-decoration: line-through
+    }
+
+    .product-image {
+        width: 100%
+    }
+
+    .dot {
+        height: 7px;
+        width: 7px;
+        margin-left: 6px;
+        margin-right: 6px;
+        margin-top: 3px;
+        background-color: blue;
+        border-radius: 50%;
+        display: inline-block
+    }
+
+    .spec-1 {
+        color: #36393d;
+        font-size: 17px;
+    }
+
+    .companyname {
+        font-weight: bold;
+        font-size: 28px;
+    }
+
+    .para {
+        font-size: 16px
+    }
+
+    label {
+        font-size: 20px;
+    }
+    .active{
+        color: #fec771;
+      }
+      .row {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin-right: -36px;
+        margin-left: -56px;
+    }
+</style>
+
+<body>
+    <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-light1" id="ftco-navbar"
+    style="background-color:#2d2d2d;">
+    <div class="container">
+        <a class="navbar-brand active" href="#">Health Bot</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+            aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="fa fa-bars"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+                
+                <li class="nav-item"><a href="#" class="nav-link">Internship
+                        Applied</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">All Announcement</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Profile</a></li>
+
+                <li class="nav-item"><a href="#" class="nav-link">Logout</a></li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+{% block content %}
+
+{% endblock %}	
+</body>
+</html>

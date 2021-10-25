@@ -1,0 +1,267 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js" integrity="sha256-WVsM3xrcqyuFNF3W1qtIKbHFsD0977nDQA8DCMp1zCw=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" integrity="sha256-2/3R3NV5zryj0fDjD3cDh+SNiWQ/TJiMVZzAo5FrhiU=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</head> -->
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+  body{
+    font: 15px arial, sans-serif;
+    background-color: #d0ffe0;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    }
+      
+      #bodybox {
+        margin: auto;
+        width: 59%;
+        /* max-width: 550px; */
+        margin-top: 13px;
+        font: 19px arial, sans-serif;
+        background-color: #e6c5c5;
+        border-style: solid;
+        border-width: 1px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        padding-right: 0px;
+        padding-left: 0cm;
+        box-shadow: 5px 5px 5px grey;
+        border-radius: 34px;
+      }
+      
+      #chatborder {
+        border-style: solid;
+        background-color: #fffddf;
+        border-width: 3px;
+        margin-top: 20px;
+        max-height: 715px;
+        margin-bottom: 20px;
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-top: 10px;
+        padding-bottom: 15px;
+        padding-right: 20px;
+        padding-left: 15px;
+        border-radius: 15px;
+      }
+      
+      /*.chatlog {
+        font: 15px arial, sans-serif;
+      }
+      */
+      #chatbox {
+        font: 17px arial, sans-serif;
+        height: 34px;
+        width: 100%;
+        margin-bottom: 30px;
+      }
+      
+      h1 {
+        margin: auto;
+      }
+      
+      pre {
+        background-color: #f0f0f0;
+        margin-left: 20px;
+      }
+</style>
+    <div id='bodybox'>
+        <div id='chatborder' style="overflow: scroll;">
+          <input type="text" name="chat" id="chatbox" placeholder="Hi there! Type here to talk to me." onfocus="placeHolder()">
+          <p id="chatlog1" class="chatlog">&nbsp;</p>
+          <p id="chatlog2" class="chatlog">&nbsp;</p>
+          <p id="chatlog3" class="chatlog">&nbsp;</p>
+          <p id="chatlog4" class="chatlog">&nbsp;</p>
+          <p id="chatlog5" class="chatlog">&nbsp;</p>
+          <p id="chatlog6" class="chatlog">&nbsp;</p>
+          <p id="chatlog7" class="chatlog">&nbsp;</p>
+          <p id="chatlog8" class="chatlog">&nbsp;</p>
+          <p id="chatlog9" class="chatlog">&nbsp;</p>
+          <p id="chatlog10" class="chatlog">&nbsp;</p>
+          <p id="chatlog11" class="chatlog">&nbsp;</p>
+          <p id="chatlog12" class="chatlog">&nbsp;</p>
+          <p id="chatlog13" class="chatlog">&nbsp;</p>
+          <p id="chatlog14" class="chatlog">&nbsp;</p>
+          <p id="chatlog15" class="chatlog">&nbsp;</p>
+          <p id="chatlog16" class="chatlog">&nbsp;</p>
+          <p id="chatlog17" class="chatlog">&nbsp;</p>
+          <p id="chatlog18" class="chatlog">&nbsp;</p>
+          <p id="chatlog19" class="chatlog">&nbsp;</p>
+          <p id="chatlog20" class="chatlog">&nbsp;</p>
+          <p id="chatlog21" class="chatlog">&nbsp;</p>
+          <p id="chatlog22" class="chatlog">&nbsp;</p>
+          <p id="chatlog23" class="chatlog">&nbsp;</p>
+          <p id="chatlog24" class="chatlog">&nbsp;</p>
+          
+        </div>
+        <br>
+        <br>
+    </div>
+<form>
+    {% csrf_token %}
+</form>
+
+<script>
+    //links
+//http://eloquentjavascript.net/09_regexp.html
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+
+
+var messages = [], //array that hold the record of each string in chat
+lastUserMessage = "", //keeps track of the most recent input string from the user
+botMessage = "", //var keeps track of what the chatbot is going to say
+botName = 'Chatbot', //name of the chatbot
+talking = true; //when false the speach function doesn't work
+ans=''
+//
+//
+//****************************************************************
+//****************************************************************
+//****************************************************************
+//****************************************************************
+//****************************************************************
+//****************************************************************
+//****************************************************************
+//edit this function to change what the chatbot says
+function chatbotResponse() {
+talking = true;
+botMessage = "I'm confused"; //the default message
+
+if (lastUserMessage === 'hi' || lastUserMessage =='hello') {
+  const hi = ['hi','howdy','hello']
+  botMessage = hi[Math.floor(Math.random()*(hi.length))];;
+}
+
+if (lastUserMessage === 'name') {
+  botMessage = 'My name is ' + botName;
+}
+}
+//****************************************************************
+//****************************************************************
+//****************************************************************
+//****************************************************************
+//****************************************************************
+//****************************************************************
+//****************************************************************
+//
+//
+//
+//this runs each time enter is pressed.
+//It controls the overall input and output
+function newEntry(ans) {
+//if the message from the user isn't empty then run 
+if (document.getElementById("chatbox").value != "") {
+  //pulls the value from the chatbox ands sets it to lastUserMessage
+  lastUserMessage = document.getElementById("chatbox").value;
+  //sets the chat box to be clear
+  document.getElementById("chatbox").value = "";
+  //adds the value of the chatbox to the array messages
+  person_name="You"
+  messages.push("<b>"+person_name+": </b> "+lastUserMessage);
+  //Speech(lastUserMessage);  //says what the user typed outloud
+  //sets the variable botMessage in response to lastUserMessage
+  //chatbotResponse();
+  console.log("ans hello",messages)
+  botMessage=ans
+  //add the chatbot's name and message to the array messages
+  messages.push("<b>" + botName + ":</b> " + botMessage);
+  // says the message using the text to speech function written below
+  Speech(botMessage);
+  //outputs the last few array elements of messages to html
+  for (var i = 1; i < 24; i++) {
+    if (messages[messages.length - i])
+      document.getElementById("chatlog" + i).innerHTML = messages[messages.length - i];
+  }
+}
+}
+
+//text to Speech
+//https://developers.google.com/web/updates/2014/01/Web-apps-that-talk-Introduction-to-the-Speech-Synthesis-API
+function Speech(say) {
+if ('speechSynthesis' in window && talking) {
+  var utterance = new SpeechSynthesisUtterance(say);
+  //msg.voice = voices[10]; // Note: some voices don't support altering params
+  //msg.voiceURI = 'native';
+  //utterance.volume = 1; // 0 to 1
+  //utterance.rate = 0.1; // 0.1 to 10
+  //utterance.pitch = 1; //0 to 2
+  //utterance.text = 'Hello World';
+  //utterance.lang = 'en-US';
+  speechSynthesis.speak(utterance);
+}
+}
+
+//runs the keypress() function when a key is pressed
+document.onkeypress = keyPress;
+//if the key pressed is 'enter' runs the function newEntry()
+function keyPress(e) {
+var x = e || window.event;
+var key = (x.keyCode || x.which);
+if (key == 13 || key == 3) {
+  //runs this function when enter is pressed
+  const token= $('input[name="csrfmiddlewaretoken"]').attr('value');
+  const chat=$('input[name="chat"]').val();
+  console.log("token",token)
+  console.log("chat",chat)
+  
+  $.ajax({
+	  url: '/predict_chat',
+	  type:'POST',
+	  data: {
+	  operation: chat,
+	  'csrfmiddlewaretoken':token,
+	},
+	}).done(function(data) {
+		console.log("hello")
+		//let data = JSON.parse(data);
+		console.log(data)
+	//	$('#operation-container').html(data.eqt);
+	//	$('#solution-container').html(data.ans);
+     ans=data.ans
+     lastUserMessage = document.getElementById("chatbox").value;
+    //sets the chat box to be clear
+    document.getElementById("chatbox").value = "";
+    //adds the value of the chatbox to the array messages
+    messages.push("<b>You:</b> " +lastUserMessage);
+    //Speech(lastUserMessage);  //says what the user typed outloud
+    //sets the variable botMessage in response to lastUserMessage
+    //chatbotResponse();
+    console.log("ans hello",messages)
+    botMessage=ans
+    //add the chatbot's name and message to the array messages
+    messages.push("<b>" + botName + ":</b> " + botMessage);
+    // says the message using the text to speech function written below
+    Speech(botMessage);
+    //outputs the last few array elements of messages to html
+    for (var i = 1; i < 17; i++) {
+      if (messages[messages.length - i])
+        document.getElementById("chatlog" + i).innerHTML = messages[messages.length - i];
+    }
+    }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+      alert("Please enter a valid expression...");
+    })
+  //newEntry(ans);
+}
+if (key == 38) {
+  console.log('hi')
+    //document.getElementById("chatbox").value = lastUserMessage;
+}
+}
+
+//clears the placeholder text ion the chatbox
+//this function is set to run when the users brings focus to the chatbox, by clicking on it
+function placeHolder() {
+document.getElementById("chatbox").placeholder = "";
+}
+</script>
+	   {% endblock %}	
