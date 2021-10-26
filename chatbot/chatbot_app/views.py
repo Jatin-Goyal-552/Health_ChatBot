@@ -12,6 +12,7 @@ import pandas as pd
 # nltk.download('wordnet')
 from nltk.stem import WordNetLemmatizer
 import keras
+import random
 # Create your views here.
 
 disease_model= pickle.load(open('C://Users//LENOVO//projects//Health Care Chatbot//notebook//Multinomial_classifier_disease.pkl','rb'))
@@ -41,29 +42,23 @@ def clean_up_sentence(sentence):
     sentence_words = [lemmatizer.lemmatize(word.lower()) for word in sentence_words]
     return sentence_words
 
-# return bag of words array: 0 or 1 for each word in the bag that exists in the sentence
 
 def bow(sentence, words, show_details=True):
-    # tokenize the pattern
     sentence_words = clean_up_sentence(sentence)
-    # bag of words - matrix of N words, vocabulary matrix
     bag = [0]*len(words)
     for s in sentence_words:
         for i,w in enumerate(words):
             if w == s:
-                # assign 1 if current word is in the vocabulary position
                 bag[i] = 1
                 if show_details:
                     print ("found in bag: %s" % w)
     return(np.array(bag))
 
 def predict_class(sentence, model):
-    # filter out predictions below a threshold
     p = bow(sentence, words,show_details=True)
     res = model.predict(np.array([p]))[0]
     ERROR_THRESHOLD = 0.25
     results = [[i,r] for i,r in enumerate(res) if r>ERROR_THRESHOLD]
-    # sort by strength of probability
     results.sort(key=lambda x: x[1], reverse=True)
     return_list = []
     for r in results:
@@ -93,12 +88,125 @@ def predict_chat(request):
         chat=request.POST['operation']
         pred,tag=chatbot_response(chat)
         print("pred",pred,"tag",tag)
+        temp=""
+        for c in chat:
+            if c!="?" and c!="." and c!='!':
+                temp+=c
+        print("temp",temp)
+        chat=temp
         if tag=="tell_symptoms":
             sym=True
             prec,desc=False,False
-            return HttpResponse(json.dumps({'ans':"Please tell your symptoms."}), content_type="application/json")
+            ans_list=['Can you tell me about your symptoms?','Please tell me your symptoms, so that I can help you.']
+            return HttpResponse(json.dumps({'ans':random.choice(ans_list)}), content_type="application/json")
+        elif tag=="what":
+            df_description=pd.read_csv("C://Users//LENOVO//projects//Health Care Chatbot//data//DiseaseData//symptom_Description.csv")
+            chat=chat.split(' ')
+            all_disease=df_description['Disease'].values.tolist()
+            lst=[]
+            find_disease=False
+            for i in range(len(chat)):
+                lst.append([chat[i]])
+                lst.append([chat[i-2],chat[i-1],chat[i]])
+                lst.append([chat[i-1],chat[i]])
+            for disease in all_disease:
+                disease_list=disease.split(' ')
+                for l in lst:
+                    if l==disease_list:
+                        temp=disease_list
+                        find_disease=True
+                        break
+            if not find_disease:
+                return HttpResponse(json.dumps({'ans':"Sorry, I do not know about this disease."}), content_type="application/json")
+            final_disease=" ".join(temp)
+            description=str(df_description[df_description['Disease']==final_disease]['Description'].values[0])
+            print("description",description)
+            return HttpResponse(json.dumps({'ans':description}), content_type="application/json")
+        elif tag=="cure":
+            df_precautions=pd.read_csv("C://Users//LENOVO//projects//Health Care Chatbot//data//DiseaseData//symptom_precaution.csv")
+            df_precautions=df_precautions.fillna('')
+            all_disease=df_precautions['Disease'].values.tolist()
+            chat=chat.split(" ")
+            lst=[]
+            find_disease=False
+            for i in range(len(chat)):
+                lst.append([chat[i]])
+                lst.append([chat[i-2],chat[i-1],chat[i]])
+                lst.append([chat[i-1],chat[i]])
+            for disease in all_disease:
+                disease_list=disease.split(' ')
+                for l in lst:
+                    if l==disease_list:
+                        temp=disease_list
+                        find_disease=True
+                        break
+            if not find_disease:
+                return HttpResponse(json.dumps({'ans':"Sorry, I do not know about this disease."}), content_type="application/json")
+            final_disease=" ".join(temp)
+            precautions=str(df_precautions[df_precautions['Disease']==final_disease]['Precaution_1'].values[0]+", "+df_precautions[df_precautions['Disease']==final_disease]['Precaution_2'].values[0]+", "+df_precautions[df_precautions['Disease']==final_disease]['Precaution_3'].values[0]+" and  "+df_precautions[df_precautions['Disease']== final_disease]['Precaution_4'].values[0])
+            precautions="You should take precaution like "+precautions
+            print("precautions",precautions)
+            return HttpResponse(json.dumps({'ans':precautions}), content_type="application/json")
+        elif tag=="symptoms":
+            chat=chat.split(' ')
+            df_precautions = pd.read_csv(
+                "C://Users//LENOVO//projects//Health Care Chatbot//data//DiseaseData//symptom_precaution.csv")
+            df_symptoms=pd.read_csv("C://Users//LENOVO//projects//Health Care Chatbot//data//DiseaseData//dataset.csv")
+            df_symptoms=df_symptoms.fillna('')
+            all_disease = df_precautions['Disease'].values.tolist()
+            lst = []
+            find_disease = False
+            for i in range(len(chat)):
+                lst.append([chat[i]])
+                lst.append([chat[i-2], chat[i-1], chat[i]])
+                lst.append([chat[i-1], chat[i]])
+            for disease in all_disease:
+                disease_list = disease.split(' ')
+                for l in lst:
+                    if l == disease_list:
+                        temp = disease_list
+                        find_disease = True
+                        break
+            if not find_disease:
+                return HttpResponse(json.dumps({'ans':"Sorry, I do not know about this disease."}), content_type="application/json")
+            else:
+                final_disease = " ".join(temp)
+                all_symptoms1=""
+                df_symptoms=df_symptoms[df_symptoms['Disease']==final_disease].reset_index()
+                print(df_symptoms.head(5))
+                for i in range(1):
+                    flag=True
+                    for j in range(1,18):
+                        col='Symptom_'+str(j)
+                        if df_symptoms[col][i]!='':
+                            if flag:
+                                all_symptoms1+=df_symptoms[col][i]
+                                flag=False
+                            else:
+                                all_symptoms1+=", "+df_symptoms[col][i]
+                                
+                    all_symptoms1+='\n'
+                all_symptoms1=all_symptoms1.split(",")
+                all_symptoms2=''
+                for symptom in all_symptoms1:
+                    symptom=symptom.split('_')
+                    symptom.append(", ")
+                    all_symptoms2+=" ".join(symptom)
+                all_symptoms2="Symptoms for this disease is "+ all_symptoms2
+                print("all_symptoms1", all_symptoms2)
+                return HttpResponse(json.dumps({'ans': all_symptoms2}), content_type="application/json")
+
         elif tag=="no_symptoms":
             # chat+=all_symptoms
+            
+            temp=all_symptoms.split(",")
+            all_symptoms=''
+            for symptom in temp:
+                symptom=symptom.strip()
+                symptom=symptom.split(' ')
+                all_symptoms+="_".join(symptom)
+                all_symptoms+=' '
+            print("all_symptoms",all_symptoms)
             chat=all_symptoms
             symptoms=chat.split(',')
             symptoms=" ".join(symptoms)
@@ -109,32 +217,29 @@ def predict_chat(request):
             temp_disease=pred
             sym=False
             print("test",test)
-            return HttpResponse(json.dumps({'ans':"You have "+pred+"."}), content_type="application/json")
+            all_symptoms=''
+            ans_list=['You have '+pred+".","You are suffering from "+pred+"."]
+            return HttpResponse(json.dumps({'ans':random.choice(ans_list)}), content_type="application/json")
         elif tag=="add_symptoms":
             # all_symptoms+=chat+" "
             tag=''
-            return HttpResponse(json.dumps({'ans':"Tell me more symptoms"}), content_type="application/json")
+            ans_list=["Please tell me more symptoms.","Please add more symptoms."]
+            return HttpResponse(json.dumps({'ans':random.choice(ans_list)}), content_type="application/json")
             
         elif sym:
-            # symptoms=chat.split(',')
-            # symptoms=" ".join(symptoms)
-            # test=clean(symptoms)
-            # test=[test]
-            # test_vectorized=disease_tokenizer.transform(test)
-            # pred=disease_model.predict(test_vectorized)[0]
-            # temp_disease=pred
-            # sym=False
-            # print("test",test)
-            all_symptoms+=chat+" "
-            return HttpResponse(json.dumps({'ans':"have you told all symptoms to me or you want to tell me more."}), content_type="application/json")
+            all_symptoms+=chat+","
+            ans_list=['Have you told all symptoms to me or you want to tell me more symptom?','Do you want to tell more symptom to me?']
+            return HttpResponse(json.dumps({'ans':random.choice(ans_list)}), content_type="application/json")
         elif tag=="tell_precautions":
             df_precautions=pd.read_csv("C://Users//LENOVO//projects//Health Care Chatbot//data//DiseaseData//symptom_precaution.csv")
             # temp_disease="Chicken pox"
+            df_precautions=df_precautions.fillna('')
             print("temp_disease",temp_disease)
             temp_disease=temp_disease[0].upper()+temp_disease[1:]
             print("temp_disease",temp_disease)
             
             precautions=str(df_precautions[df_precautions['Disease']==temp_disease]['Precaution_1'].values[0]+", "+df_precautions[df_precautions['Disease']==temp_disease]['Precaution_2'].values[0]+", "+df_precautions[df_precautions['Disease']==temp_disease]['Precaution_3'].values[0]+" and  "+df_precautions[df_precautions['Disease']== temp_disease]['Precaution_4'].values[0])
+            precautions="You should take precaution like "+precautions
             print("precautions",precautions)
             return HttpResponse(json.dumps({'ans':precautions}), content_type="application/json")
         elif tag=="tell_description":

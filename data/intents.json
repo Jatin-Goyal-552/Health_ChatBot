@@ -165,6 +165,42 @@
         "You are doing good keep it up."
       ],
       "context": [""]
+    },
+    {
+      "tag": "what",
+      "patterns": [
+        "What is",
+        "Can you elaborate me ?",
+        "can you describe me ?",
+        "can you tell me about ?"
+      ],
+      "responses": [
+        ""
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "cure",
+      "patterns": [
+        "how to cure ?",
+        "how to stop spread of ?",
+        "how to stop ?"
+      ],
+      "responses": [
+        ""
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "symptoms",
+      "patterns": [
+        "What are symptoms of ?",
+        "how is spread ?"
+      ],
+      "responses": [
+        ""
+      ],
+      "context": [""]
     }
   ]
 }

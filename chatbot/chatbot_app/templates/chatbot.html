@@ -26,7 +26,7 @@
         margin: auto;
         width: 59%;
         /* max-width: 550px; */
-        margin-top: 13px;
+        margin-top: 30px;
         font: 19px arial, sans-serif;
         background-color: #e6c5c5;
         border-style: solid;
@@ -44,7 +44,7 @@
         background-color: #fffddf;
         border-width: 3px;
         margin-top: 20px;
-        max-height: 715px;
+        max-height: 572px;
         margin-bottom: 20px;
         margin-left: 20px;
         margin-right: 20px;
@@ -74,6 +74,16 @@
         background-color: #f0f0f0;
         margin-left: 20px;
       }
+      b, strong {
+        font-weight: bolder;
+        color: #3123ff;
+    }
+    p {
+      margin-top: 0;
+      color: #ac6395;
+      font-size: 24px;
+      margin-bottom: 1rem;
+  }
 </style>
     <div id='bodybox'>
         <div id='chatborder' style="overflow: scroll;">
@@ -102,7 +112,11 @@
           <p id="chatlog22" class="chatlog">&nbsp;</p>
           <p id="chatlog23" class="chatlog">&nbsp;</p>
           <p id="chatlog24" class="chatlog">&nbsp;</p>
-          
+          <p id="chatlog25" class="chatlog">&nbsp;</p>
+          <p id="chatlog26" class="chatlog">&nbsp;</p>
+          <p id="chatlog27" class="chatlog">&nbsp;</p>
+          <p id="chatlog28" class="chatlog">&nbsp;</p>
+          <p id="chatlog29" class="chatlog">&nbsp;</p>
         </div>
         <br>
         <br>
@@ -241,9 +255,9 @@ if (key == 13 || key == 3) {
     //add the chatbot's name and message to the array messages
     messages.push("<b>" + botName + ":</b> " + botMessage);
     // says the message using the text to speech function written below
-    Speech(botMessage);
+    //Speech(botMessage);
     //outputs the last few array elements of messages to html
-    for (var i = 1; i < 24; i++) {
+    for (var i = 1; i < 30; i++) {
       if (messages[messages.length - i])
         document.getElementById("chatlog" + i).innerHTML = messages[messages.length - i];
     }
